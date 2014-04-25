@@ -22,7 +22,7 @@ def move(matrix,direction):
     if direction == 'u':
         for i in range(16):
             j = i
-            while j - 4 >= 0 and j - 4 not in mergedList:
+            while j - 4 >= 0 and j - 4 not in mergedList and j not in mergedList:
                 if matrix[j-4] == 0:
                     matrix[j-4] = matrix[j]
                     matrix[j] = 0
@@ -30,23 +30,25 @@ def move(matrix,direction):
                     matrix[j-4] *=2
                     matrix[j] = 0
                     mergedList.append(j-4)
+                    mergedList.append(j)  #prevent the number to be merged twice
                 j -= 4
     elif direction == 'd':
         for i in range(15,-1,-1):
             j = i
-            while j + 4 < 16 and j + 4 not in mergedList:
+            while j + 4 < 16 and j + 4 not in mergedList and j not in mergedList:
                 if matrix[j+4] == 0:
                     matrix[j+4] = matrix[j]
                     matrix[j] = 0
                 elif matrix[j+4] == matrix[j]:
                     matrix[j+4] *=2
                     matrix[j] = 0
+                    mergedList.append(j)
                     mergedList.append(j+4)
                 j += 4
     elif direction == 'l':
         for i in range(16):
             j = i
-            while j % 4 != 0 and j - 1 not in mergedList:
+            while j % 4 != 0 and j - 1 not in mergedList and j not in mergedList:
                 if matrix[j-1] == 0:
                     matrix[j-1] = matrix[j]
                     matrix[j] = 0
@@ -54,19 +56,22 @@ def move(matrix,direction):
                     matrix[j-1] *=2
                     matrix[j] = 0
                     mergedList.append(j-1)
+                    mergedList.append(j)
                 j -= 1
     else:
         for i in range(15,-1,-1):
             j = i
-            while j % 4 != 3 and j + 1 not in mergedList:
+            while j % 4 != 3 and j + 1 not in mergedList and j not in mergedList:
                 if matrix[j+1] == 0:
                     matrix[j+1] = matrix[j]
                     matrix[j] = 0
                 elif matrix[j+1] == matrix[j]:
                     matrix[j+1] *=2
                     matrix[j] = 0
+                    mergedList.append(j)
                     mergedList.append(j+1)
                 j += 1
+    print mergedList
     return matrix
 
 def insert(matrix):
