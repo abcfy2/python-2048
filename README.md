@@ -16,4 +16,4 @@ python-2048
 ScreenShort
 ===
 
-![Alt img](screenshort.png "ScreenShort")
+![Alt img](screenshot.png "ScreenShort")
