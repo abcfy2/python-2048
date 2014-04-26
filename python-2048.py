@@ -70,7 +70,6 @@ def move(matrix,direction):
                     mergedList.append(j)
                     mergedList.append(j+1)
                 j += 1
-    print mergedList
     return matrix
 
 def insert(matrix):
@@ -150,7 +149,7 @@ def play():
             while True:
                 prompt = "[NORMAL] u(p)/d(own)/l(eft)/r(ight)"
                 if vim_mode:
-                    prompt = "[VIM MODE] h:left, ju(p)/d(own)/l(eft)/r(ight)"
+                    prompt = "[VIM MODE] h:left, u(p)/d(own)/l(eft)/r(ight)"
                 input = getchar(prompt = 'Step %2d ' %(step) + prompt + ' q(quit) b(back) v(vim_mode): ')
                 if vim_mode:
                     input = vim_map.get(input, input)
