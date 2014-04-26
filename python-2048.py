@@ -4,7 +4,6 @@
 The minigame 2048 in python
 """
 import random
-
 def init():
     """
     initialize a 2048 matrix. return a matrix list
@@ -22,11 +21,11 @@ def move(matrix,direction):
     if direction == 'u':
         for i in range(16):
             j = i
-            while j - 4 >= 0 and j - 4 not in mergedList and j not in mergedList:
+            while j - 4 >= 0:
                 if matrix[j-4] == 0:
                     matrix[j-4] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j-4] == matrix[j]:
+                elif matrix[j-4] == matrix[j] and j - 4 not in mergedList and j not in mergedList:
                     matrix[j-4] *=2
                     matrix[j] = 0
                     mergedList.append(j-4)
@@ -35,11 +34,11 @@ def move(matrix,direction):
     elif direction == 'd':
         for i in range(15,-1,-1):
             j = i
-            while j + 4 < 16 and j + 4 not in mergedList and j not in mergedList:
+            while j + 4 < 16:
                 if matrix[j+4] == 0:
                     matrix[j+4] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j+4] == matrix[j]:
+                elif matrix[j+4] == matrix[j] and j + 4 not in mergedList and j not in mergedList:
                     matrix[j+4] *=2
                     matrix[j] = 0
                     mergedList.append(j)
@@ -48,11 +47,11 @@ def move(matrix,direction):
     elif direction == 'l':
         for i in range(16):
             j = i
-            while j % 4 != 0 and j - 1 not in mergedList and j not in mergedList:
+            while j % 4 != 0:
                 if matrix[j-1] == 0:
                     matrix[j-1] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j-1] == matrix[j]:
+                elif matrix[j-1] == matrix[j] and j - 1 not in mergedList and j not in mergedList:
                     matrix[j-1] *=2
                     matrix[j] = 0
                     mergedList.append(j-1)
@@ -61,16 +60,17 @@ def move(matrix,direction):
     else:
         for i in range(15,-1,-1):
             j = i
-            while j % 4 != 3 and j + 1 not in mergedList and j not in mergedList:
+            while j % 4 != 3:
                 if matrix[j+1] == 0:
                     matrix[j+1] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j+1] == matrix[j]:
+                elif matrix[j+1] == matrix[j] and j + 1 not in mergedList and j not in mergedList:
                     matrix[j+1] *=2
                     matrix[j] = 0
                     mergedList.append(j)
                     mergedList.append(j+1)
                 j += 1
+    print mergedList
     return matrix
 
 def insert(matrix):
