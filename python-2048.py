@@ -118,9 +118,28 @@ def isOver(matrix):
                     return False
     return True
 
+def getchar(prompt="Wait input: "):
+    import termios, sys
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    new = termios.tcgetattr(fd)
+    new[3] = new[3] & ~termios.ICANON          # lflags
+    try:
+        termios.tcsetattr(fd, termios.TCSADRAIN, new)
+        sys.stderr.write(prompt)
+        sys.stderr.flush()
+        c = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
+    return c
+
 def play():
     matrix = init()
     matrix_old = list(matrix)
+    vim_mode = False
+    vim_map = {'h':'l', 'j':'d', 'k':'u', 'l':'r'}
+    step = 0
+
     while True:
         output(matrix)
         if isOver(matrix) == False:
@@ -129,10 +148,17 @@ def play():
                 if input == 'q':
                     exit()
             while True:
-                input = raw_input("Choose which direction? u(p)/d(own)/l(eft)/r(ight), q for quit, b for back(Just one step): ")
+                prompt = "[NORMAL] u(p)/d(own)/l(eft)/r(ight)"
+                if vim_mode:
+                    prompt = "[VIM MODE] h:left, ju(p)/d(own)/l(eft)/r(ight)"
+                input = getchar(prompt = 'Step %2d ' %(step) + prompt + ' q(quit) b(back) v(vim_mode): ')
+                if vim_mode:
+                    input = vim_map.get(input, input)
+                print 'get:', input
                 if input in [ 'u', 'd', 'l', 'r' ]:
                     matrix_old = list(matrix)
                     matrix_new = move(matrix,input)
+                    step += 1
                     break
                 elif input == 'b':
                     matrix = list(matrix_old)
@@ -141,6 +167,8 @@ def play():
                 elif input == 'q':
                     print 'Byebye!'
                     exit()
+                elif input == 'v':
+                    vim_mode = not vim_mode
                 else:
                     print 'Input error! Try again.'
             matrix = list(matrix_new)
