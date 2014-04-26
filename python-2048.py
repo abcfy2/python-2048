@@ -149,8 +149,8 @@ def play():
             while True:
                 prompt = "[NORMAL] u(p)/d(own)/l(eft)/r(ight)"
                 if vim_mode:
-                    prompt = "[VIM MODE] h:left, u(p)/d(own)/l(eft)/r(ight)"
-                input = getchar(prompt = 'Step %2d ' %(step) + prompt + ' q(quit) b(back) v(vim_mode): ')
+                    prompt = "[VIM MODE] h:left, j:down, k:up, l:right"
+                input = getchar(prompt = 'Step {0:2d} {1} q(quit) b(back) v(vim_mode): '.format(step,prompt))
                 if vim_mode:
                     input = vim_map.get(input, input)
                 print 'get:', input
@@ -162,6 +162,7 @@ def play():
                 elif input == 'b':
                     matrix = list(matrix_old)
                     matrix_new = list(matrix)
+                    step -= 1
                     break
                 elif input == 'q':
                     print 'Byebye!'
