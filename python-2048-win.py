@@ -70,7 +70,6 @@ def move(matrix,direction):
                     mergedList.append(j)
                     mergedList.append(j+1)
                 j += 1
-    print mergedList
     return matrix
 
 def insert(matrix):
