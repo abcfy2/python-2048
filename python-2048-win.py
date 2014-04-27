@@ -70,7 +70,6 @@ def move(matrix,direction):
                     mergedList.append(j)
                     mergedList.append(j+1)
                 j += 1
-    print mergedList
     return matrix
 
 def insert(matrix):
@@ -120,7 +119,10 @@ def isOver(matrix):
 
 def play():
     matrix = init()
-    matrix_old = list(matrix)
+    matrix_stack = [] # just used by back function
+    matrix_stack.append(list(matrix))
+    step = len(matrix_stack) - 1
+
     while True:
         output(matrix)
         if isOver(matrix) == False:
@@ -129,28 +131,31 @@ def play():
                 if input == 'q':
                     exit()
             while True:
-                input = raw_input("Choose which direction? u(p)/d(own)/l(eft)/r(ight), q for quit, b for back(Just one step): ")
+                input = raw_input("Step {0:2d} Choose which direction? u(p)/d(own)/l(eft)/r(ight), q for quit, b for back: ".format(step))
                 if input in [ 'u', 'd', 'l', 'r' ]:
-                    matrix_old = list(matrix)
-                    matrix_new = move(matrix,input)
+                    matrix = move(matrix,input)
+                    if matrix == matrix_stack[-1]:
+                        print 'Not chaged. Try another direction.'
+                    else:
+                        insert(matrix)
+        	        matrix_stack.append(list(matrix))
                     break
                 elif input == 'b':
-                    matrix = list(matrix_old)
-                    matrix_new = list(matrix)
+                    if len(matrix_stack) == 1:
+                        print 'Cannot back anymore...'
+                        continue
+                    matrix_stack.pop()
+                    matrix = list(matrix_stack[-1])
                     break
                 elif input == 'q':
                     print 'Byebye!'
                     exit()
                 else:
                     print 'Input error! Try again.'
-            matrix = list(matrix_new)
-            if matrix == matrix_old:
-                print 'Not chaged. Try another direction.'
-            else:
-                insert(matrix)
         else:
             print 'Cannot move anyway. Game Over...'
             exit()
+        step = len(matrix_stack) - 1
 
 if __name__ == '__main__':
     play()

@@ -134,10 +134,11 @@ def getchar(prompt="Wait input: "):
 
 def play():
     matrix = init()
-    matrix_old = list(matrix)
     vim_mode = False
     vim_map = {'h':'l', 'j':'d', 'k':'u', 'l':'r'}
-    step = 0
+    matrix_stack = [] # just used by back function
+    matrix_stack.append(list(matrix))
+    step = len(matrix_stack) - 1
 
     while True:
         output(matrix)
@@ -154,15 +155,20 @@ def play():
                 if vim_mode:
                     input = vim_map.get(input, input)
                 print 'get:', input
-                if input in [ 'u', 'd', 'l', 'r' ]:
-                    matrix_old = list(matrix)
-                    matrix_new = move(matrix,input)
-                    step += 1
+                if input in ['u', 'd', 'l', 'r']:
+                    matrix = move(matrix,input)
+                    if matrix == matrix_stack[-1]:
+                        print 'Not chaged. Try another direction.'
+                    else:
+                        insert(matrix)
+        	        matrix_stack.append(list(matrix))
                     break
                 elif input == 'b':
-                    matrix = list(matrix_old)
-                    matrix_new = list(matrix)
-                    step -= 1
+                    if len(matrix_stack) == 1:
+                        print 'Cannot back anymore...'
+                        continue
+                    matrix_stack.pop()
+                    matrix = list(matrix_stack[-1])
                     break
                 elif input == 'q':
                     print 'Byebye!'
@@ -171,14 +177,10 @@ def play():
                     vim_mode = not vim_mode
                 else:
                     print 'Input error! Try again.'
-            matrix = list(matrix_new)
-            if matrix == matrix_old:
-                print 'Not chaged. Try another direction.'
-            else:
-                insert(matrix)
         else:
             print 'Cannot move anyway. Game Over...'
             exit()
+        step = len(matrix_stack) - 1
 
 if __name__ == '__main__':
     play()
