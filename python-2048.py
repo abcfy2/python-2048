@@ -18,7 +18,7 @@ def move(matrix,direction):
     moving the matrix. return a matrix list
     """
     mergedList = [] #initial the merged index
-    if direction == 'u':
+    if direction == 'w':
         for i in range(16):
             j = i
             while j - 4 >= 0:
@@ -31,7 +31,7 @@ def move(matrix,direction):
                     mergedList.append(j-4)
                     mergedList.append(j)  #prevent the number to be merged twice
                 j -= 4
-    elif direction == 'd':
+    elif direction == 's':
         for i in range(15,-1,-1):
             j = i
             while j + 4 < 16:
@@ -44,7 +44,7 @@ def move(matrix,direction):
                     mergedList.append(j)
                     mergedList.append(j+4)
                 j += 4
-    elif direction == 'l':
+    elif direction == 'a':
         for i in range(16):
             j = i
             while j % 4 != 0:
@@ -135,7 +135,7 @@ def getchar(prompt="Wait input: "):
 def play():
     matrix = init()
     vim_mode = False
-    vim_map = {'h':'l', 'j':'d', 'k':'u', 'l':'r'}
+    vim_map = {'h':'a', 'j':'s', 'k':'w', 'l':'d'}
     matrix_stack = [] # just used by back function
     matrix_stack.append(list(matrix))
     step = len(matrix_stack) - 1
@@ -148,14 +148,14 @@ def play():
                 if input == 'q':
                     exit()
             while True:
-                prompt = "[NORMAL] u(p)/d(own)/l(eft)/r(ight)"
+                prompt = "[NORMAL] w(up)/s(down)/a(left)/d(right)"
                 if vim_mode:
                     prompt = "[VIM MODE] h:left, j:down, k:up, l:right"
                 input = getchar(prompt = 'Step {0:2d} {1} q(quit) b(back) v(vim_mode): '.format(step,prompt))
                 if vim_mode:
                     input = vim_map.get(input, input)
                 print 'get:', input
-                if input in ['u', 'd', 'l', 'r']:
+                if input in ['w', 's', 'a', 'd']:
                     matrix = move(matrix,input)
                     if matrix == matrix_stack[-1]:
                         print 'Not chaged. Try another direction.'
