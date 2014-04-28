@@ -4,6 +4,7 @@
 The minigame 2048 in python
 """
 import random
+import msvcrt
 def init():
     """
     initialize a 2048 matrix. return a matrix list
@@ -18,7 +19,7 @@ def move(matrix,direction):
     moving the matrix. return a matrix list
     """
     mergedList = [] #initial the merged index
-    if direction == 'w':
+    if direction == 'H':
         for i in range(16):
             j = i
             while j - 4 >= 0:
@@ -31,7 +32,7 @@ def move(matrix,direction):
                     mergedList.append(j-4)
                     mergedList.append(j)  #prevent the number to be merged twice
                 j -= 4
-    elif direction == 's':
+    elif direction == 'P':
         for i in range(15,-1,-1):
             j = i
             while j + 4 < 16:
@@ -44,7 +45,7 @@ def move(matrix,direction):
                     mergedList.append(j)
                     mergedList.append(j+4)
                 j += 4
-    elif direction == 'a':
+    elif direction == 'K':
         for i in range(16):
             j = i
             while j % 4 != 0:
@@ -131,8 +132,9 @@ def play():
                 if input == 'q':
                     exit()
             while True:
-                input = raw_input("Step {0:2d} Choose which direction? w(up)/s(down)/a(left)/d(right), q for quit, b for back: ".format(step))
-                if input in [ 'w', 's', 'a', 'd' ]:
+                print "Step {0:2d} Choose which direction? up/down/left/right, q for quit, b for back: ".format(step)
+                input = msvcrt.getch()
+                if input in [ 'H', 'P', 'K', 'M' ]:   #上下左右的键盘码分别对应的是"H/P/K/M"
                     matrix = move(matrix,input)
                     if matrix == matrix_stack[-1]:
                         print 'Not chaged. Try another direction.'
