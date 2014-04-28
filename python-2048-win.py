@@ -132,7 +132,7 @@ def play():
                 if input == 'q':
                     exit()
             while True:
-                print "Step {0:2d} Choose which direction? up/down/left/right, q for quit, b for back: ".format(step)
+                print "Step {0:2d} Use the arrow keys to move to corresponding direction, q for quit, b for back: ".format(step)
                 input = msvcrt.getch()
                 if input in [ 'H', 'P', 'K', 'M' ]:   #上下左右的键盘码分别对应的是"H/P/K/M"
                     matrix = move(matrix,input)
@@ -140,7 +140,7 @@ def play():
                         print 'Not chaged. Try another direction.'
                     else:
                         insert(matrix)
-        	        matrix_stack.append(list(matrix))
+                        matrix_stack.append(list(matrix))
                     break
                 elif input == 'b':
                     if len(matrix_stack) == 1:
