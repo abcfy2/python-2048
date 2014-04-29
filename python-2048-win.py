@@ -133,23 +133,25 @@ def play():
                     exit()
             while True:
                 print "Step {0:2d} Use the arrow keys to move to corresponding direction, q for quit, b for back: ".format(step)
-                input = msvcrt.getch()
-                if input in [ 'H', 'P', 'K', 'M' ]:   #上下左右的键盘码分别对应的是"H/P/K/M"
-                    matrix = move(matrix,input)
-                    if matrix == matrix_stack[-1]:
-                        print 'Not chaged. Try another direction.'
-                    else:
-                        insert(matrix)
-                        matrix_stack.append(list(matrix))
-                    break
-                elif input == 'b':
+                input = ord(msvcrt.getch())
+                if input == 224:         #Special keys 
+                    input = msvcrt.getch()
+                    if input in [ 'H', 'P', 'K', 'M' ]:
+                        matrix = move(matrix,input)
+                        if matrix == matrix_stack[-1]:
+                            print 'Not chaged. Try another direction.'
+                        else:
+                            insert(matrix)
+            	        matrix_stack.append(list(matrix))
+                        break
+                elif input == 98:              #'b'=98
                     if len(matrix_stack) == 1:
                         print 'Cannot back anymore...'
                         continue
                     matrix_stack.pop()
                     matrix = list(matrix_stack[-1])
                     break
-                elif input == 'q':
+                elif input == 113:          #'q'=113
                     print 'Byebye!'
                     exit()
                 else:
