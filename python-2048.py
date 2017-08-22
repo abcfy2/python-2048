@@ -88,19 +88,13 @@ def output(matrix):
     print the matrix. return the matrix list
     """
     max_num_width = len(str(max(matrix)))
+    conver2char = lambda num :'{0:>{1}}'.format(num, max_num_width) \
+                                 if num>0 else ' '*max_num_width
     demarcation = ( '+' + '-'*(max_num_width+2) ) * 4 + '+' #generate demarcation line like '+---+---+---+'
-    print demarcation
-    for i in range(len(matrix)):
-        if matrix[i] == 0:
-            printchar = ' '
-        else:
-            printchar = str(matrix[i])
-        print '|', 
-        print '{0:>{1}}'.format(printchar,max_num_width),
-        if (i + 1) % 4 == 0:
-            print '|'
-            print demarcation
-    print
+    print(demarcation)
+    print(('\n'+demarcation+'\n').join(['| '+' | '.join([ conver2char(num)
+                    for num in matrix[i*4:(i+1)*4]])+' |' for i in range(4)]))
+    print(demarcation)
 
 def isOver(matrix):
     """is game over? return bool
@@ -154,31 +148,31 @@ def play():
                 input = getchar(prompt = 'Step {0:2d} {1} q(quit) b(back) v(vim_mode): '.format(step,prompt))
                 if vim_mode:
                     input = vim_map.get(input, input)
-                print 'get:', input
+                print('get:', input)
                 if input in ['w', 's', 'a', 'd']:
                     matrix = move(matrix,input)
                     if matrix == matrix_stack[-1]:
-                        print 'Not chaged. Try another direction.'
+                        print('Not chaged. Try another direction.')
                     else:
                         insert(matrix)
-        	        matrix_stack.append(list(matrix))
+                    matrix_stack.append(list(matrix))
                     break
                 elif input == 'b':
                     if len(matrix_stack) == 1:
-                        print 'Cannot back anymore...'
+                        print('Cannot back anymore...')
                         continue
                     matrix_stack.pop()
                     matrix = list(matrix_stack[-1])
                     break
                 elif input == 'q':
-                    print 'Byebye!'
+                    print('Byebye!')
                     exit()
                 elif input == 'v':
                     vim_mode = not vim_mode
                 else:
-                    print 'Input error! Try again.'
+                    print('Input error! Try again.')
         else:
-            print 'Cannot move anyway. Game Over...'
+            print('Cannot move anyway. Game Over...')
             exit()
         step = len(matrix_stack) - 1
 
