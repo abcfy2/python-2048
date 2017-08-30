@@ -25,11 +25,13 @@ def move(matrix,direction):
                 if matrix[j-4] == 0:
                     matrix[j-4] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j-4] == matrix[j] and j - 4 not in mergedList and j not in mergedList:
+                elif matrix[j-4] == matrix[j] and j not in mergedList:
                     matrix[j-4] *=2
                     matrix[j] = 0
                     mergedList.append(j-4)
                     mergedList.append(j)  #prevent the number to be merged twice
+                    print mergedList
+                print matrix
                 j -= 4
     elif direction == 's':
         for i in range(15,-1,-1):
@@ -38,7 +40,7 @@ def move(matrix,direction):
                 if matrix[j+4] == 0:
                     matrix[j+4] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j+4] == matrix[j] and j + 4 not in mergedList and j not in mergedList:
+                elif matrix[j+4] == matrix[j] and j not in mergedList:
                     matrix[j+4] *=2
                     matrix[j] = 0
                     mergedList.append(j)
@@ -51,7 +53,7 @@ def move(matrix,direction):
                 if matrix[j-1] == 0:
                     matrix[j-1] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j-1] == matrix[j] and j - 1 not in mergedList and j not in mergedList:
+                elif matrix[j-1] == matrix[j] and j not in mergedList:
                     matrix[j-1] *=2
                     matrix[j] = 0
                     mergedList.append(j-1)
@@ -64,7 +66,7 @@ def move(matrix,direction):
                 if matrix[j+1] == 0:
                     matrix[j+1] = matrix[j]
                     matrix[j] = 0
-                elif matrix[j+1] == matrix[j] and j + 1 not in mergedList and j not in mergedList:
+                elif matrix[j+1] == matrix[j] and j not in mergedList:
                     matrix[j+1] *=2
                     matrix[j] = 0
                     mergedList.append(j)
